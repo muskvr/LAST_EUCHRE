@@ -379,18 +379,12 @@ class Game {
         cout << "Error opening file" << endl;
         return 1;
     }
-    //cout << "Pack filename: " << argv[1] << endl;
     string string_shuffle = argv[2];
     int points = stoi(argv[3]);
     vector<Player*> players;
     //add players
     for(int i = 4;i<12;i+=2){
         if(string(argv[i+1]) == "Human"){
-
-            // Player * Player_factory (const std::string &name, const std::string &strategy)
-
-            
-            
             players.push_back(Player_factory (string(argv[i]), "Human"));
         }else if(string(argv[i+1]) == "Simple"){
             players.push_back(Player_factory (string(argv[i]), "Simple"));
@@ -406,9 +400,6 @@ class Game {
         shuffle = false;
     }
     Game game(players, pack, points, shuffle);
-    
-    //cout << "printing args" << endl;
-    //print executable and all arguments
     for(int i = 0;i<argc;i++){
         cout << argv[i] << " ";
     }
