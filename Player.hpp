@@ -60,7 +60,7 @@ class Player {
 //Don't forget to call "delete" on each Player* after the game is over
 Player * Player_factory(const std::string &name, const std::string &strategy);
 
-//EFFECTS: Prints player's name to os
+// //EFFECTS: Prints player's name to os
 std::ostream & operator<<(std::ostream &os, const Player &p);
 
 #endif // PLAYER_HPP
