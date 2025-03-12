@@ -13,7 +13,7 @@ class Game {
 
 
     public:
-     Game(vector<Player*> players, Pack& pack, int points_to_win, bool Shouldshuffle);
+     Game(vector<Player*> players, Pack& pack, int points_to_win, string Shouldshuffle);
      void play();
      void Doshuffle();
      void print_hand(int dealer);
@@ -31,7 +31,7 @@ class Game {
             //int hands;
             int win_points;
             int hands_played;
-            bool shuffle;
+            string shuffle;
             Card upCard;
             int previous_winner;
             Suit trump;
@@ -44,7 +44,7 @@ class Game {
   // ...
    
    //constructor, pass pack by reference to avoid making a copy
-    Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, bool Shouldshuffle) {
+    Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, string Shouldshuffle) {
     //  this->players = players;
     //  pack = Apack;
     //  win_points = points_to_win;
@@ -95,7 +95,7 @@ class Game {
             //increment dealer
             dealer = (dealer + 1) % 4;
             pack.reset();
-            if(shuffle){
+            if(shuffle == "shuffle"){
                 Doshuffle();
             }
             
@@ -384,21 +384,12 @@ class Game {
     vector<Player*> players;
     //add players
     for(int i = 4;i<12;i+=2){
-        if(string(argv[i+1]) == "Human"){
-            players.push_back(Player_factory (string(argv[i]), "Human"));
-        }else if(string(argv[i+1]) == "Simple"){
-            players.push_back(Player_factory (string(argv[i]), "Simple"));
-        }
+        players.push_back(Player_factory (string(argv[i]),(argv[i+1])));
     }
     //make pack
     Pack pack(fin);
-    bool shuffle;
-    if(string_shuffle == "shuffle"){
-        shuffle = true;
-    }else{
-        shuffle = false;
-    }
-    Game game(players, pack, points, shuffle);
+    
+    Game game(players, pack, points, string_shuffle);
     for(int i = 0;i<argc;i++){
         cout << argv[i] << " ";
     }
