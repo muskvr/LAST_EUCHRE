@@ -47,11 +47,7 @@ class Game {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
     Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, string Shouldshuffle) {
-=======
-Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, bool Shouldshuffle){
->>>>>>> Stashed changes
 =======
 Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, bool Shouldshuffle){
 >>>>>>> Stashed changes
@@ -399,7 +395,6 @@ Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, bool Shoulds
             if(string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
                 cout << error_string << endl;
                 return 1;
-            }
             }
             }
             }
