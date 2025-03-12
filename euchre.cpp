@@ -13,9 +13,9 @@ class Game {
 
 
     public:
-     Game(vector<Player*> players, Pack& pack, int points_to_win, string Shouldshuffle);
+     Game(vector<Player*> players, Pack& pack, int points_to_win);
      void play();
-     void Doshuffle();
+     void shuffle();
      void print_hand(int dealer);
      void deal(int dealer);
      bool game_isover(/* ... */);
@@ -31,7 +31,7 @@ class Game {
             //int hands;
             int win_points;
             int hands_played;
-            string shuffle;
+            
             Card upCard;
             int previous_winner;
             Suit trump;
@@ -44,13 +44,12 @@ class Game {
   // ...
    
    //constructor, pass pack by reference to avoid making a copy
-    Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, string Shouldshuffle) {
+    Game::Game(vector<Player*> players, Pack& Apack, int points_to_win) {
     //  this->players = players;
     //  pack = Apack;
     //  win_points = points_to_win;
         this->players = players;
         win_points = points_to_win;
-        shuffle = Shouldshuffle;
      
     }
     
@@ -95,10 +94,7 @@ class Game {
             //increment dealer
             dealer = (dealer + 1) % 4;
             pack.reset();
-            if(shuffle == "shuffle"){
-                Doshuffle();
-            }
-            
+            shuffle();
             /*if(hands_played == 5){
                 game = false;
             }*/
@@ -115,7 +111,7 @@ class Game {
     }
     
     
-    void Game::Doshuffle() {
+    void Game::shuffle() {
      pack.shuffle();
     }
     void Game::print_hand(int dealer) {
@@ -343,9 +339,6 @@ class Game {
          
         
     }
-    
-        
-
 
 
 
@@ -353,7 +346,8 @@ class Game {
    
    int main(int argc, char **argv) {
      // Read command line args and check for errors
-     string error_string = "Usage: euchre.exe PACK_FILENAME [shuffle|noshuffle] POINTS_TO_WIN NAME1 TYPE1 NAME2 TYPE2 NAME3 TYPE3 NAME4 TYPE4";
+     string error_string = "Usage: euchre.exe PACK_FILENAME [shuffle|noshuffle]";
+     error_string += "POINTS_TO_WIN NAME1 TYPE1 NAME2 TYPE2 NAME3 TYPE3 NAME4 TYPE4";
      //cout << "Reading in" << endl;
      if(argc != 12){
         cout << error_string << endl;
@@ -365,9 +359,12 @@ class Game {
         cout << error_string << endl;
      return 1;}else{
         for(int i = 5;i<12;i+=2){
-            if(string(argv[i]) != "Human" && string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
+            if(string(argv[i]) != "Human"){
+            if(string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
                 cout << error_string << endl;
                 return 1;
+            }
+            }
             }
         }
                 

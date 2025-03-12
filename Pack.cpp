@@ -77,36 +77,54 @@
   // EFFECTS: Shuffles the Pack and resets the next index. This
   //          performs an in shuffle seven times. See
   //          https://en.wikipedia.org/wiki/In_shuffle.
-  void Pack::shuffle(){
-    for (int i = 0; i < 7; i++){
-      std::vector<Card> first;
-      std::vector<Card> second;
-      int firstI = 0;
-      int secondI = 0;
-      //add cards to either half
-      for(int i = 0; i < PACK_SIZE/2; i++){
-        first.push_back(cards[i]);
-      }
-      for(int i =  PACK_SIZE/2; i < PACK_SIZE; i++){
-        second.push_back(cards[i]);
-      }
-      //add cards back to original array
-      for(int i = 0; i < PACK_SIZE; i++){
+  // void Pack::shuffle(){
+  //   for (int i = 0; i < 7; i++){
+  //     std::vector<Card> first;
+  //     std::vector<Card> second;
+  //     int firstI = 0;
+  //     int secondI = 0;
+  //     //add cards to either half
+  //     for(int i = 0; i < PACK_SIZE/2; i++){
+  //       first.push_back(cards[i]);
+  //     }
+  //     for(int i =  PACK_SIZE/2; i < PACK_SIZE; i++){
+  //       second.push_back(cards[i]);
+  //     }
+  //     //add cards back to original array
+  //     for(int i = 0; i < PACK_SIZE; i++){
         
-        if(i%2==0){//if even
-          cards[i] = second[secondI];
-          secondI++;
-        }
-        else{
+  //       if(i%2==0){//if even
+  //         cards[i] = second[secondI];
+  //         secondI++;
+  //       }
+  //       else{
           
-          cards[i] = first[firstI];
-          firstI++;
-        }
-      }
-    }
+  //         cards[i] = first[firstI];
+  //         firstI++;
+  //       }
+  //     }
+  //   }
     
+  //   next = 0;
+  // }
+  void Pack::shuffle() {
+    for (int i = 0; i < 7; i++) {
+        std::vector<Card> temp(cards.begin(), cards.end()); // Copy current deck state
+        
+        int left = 0;                 // Left half starts at index 0
+        int right = PACK_SIZE / 2;     // Right half starts at middle index
+
+        // Interleave cards into the deck
+        for (int j = 0; j < PACK_SIZE; j++) {
+            if (j % 2 == 0) {
+                cards[j] = temp[left++];
+            } else {
+                cards[j] = temp[right++];
+            }
+        }
+    }
     next = 0;
-  }
+}
 
   // EFFECTS: returns true if there are no more cards left in the pack
   bool Pack::empty() const{
