@@ -361,15 +361,13 @@ class Game {
      //convert pointer to string
      }else if(string(argv[2]) != "shuffle" && string(argv[2]) != "noshuffle"){
         cout << error_string << endl;
-     return 1;
-     }else if(stoi(argv[3]) < 1 || stoi(argv[3]) > 10){
+     return 1;}else if(stoi(argv[3]) < 1 || stoi(argv[3]) > 10){
         cout << error_string << endl;
-     return 1;
-     }else{
+     return 1;}else{
         for(int i = 5;i<12;i+=2){
             if(string(argv[i]) != "Human" && string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
                 cout << error_string << endl;
-     return 1;
+                return 1;
             }
         }
                 
