@@ -13,9 +13,9 @@ class Game {
 
 
     public:
-     Game(vector<Player*> players, Pack& pack, int points_to_win);
+     Game(vector<Player*> players, Pack& pack, int points_to_win, bool Shouldshuffle);
      void play();
-     void shuffle();
+     void Doshuffle();
      void print_hand(int dealer);
      void deal(int dealer);
      bool game_isover(/* ... */);
@@ -31,7 +31,7 @@ class Game {
             //int hands;
             int win_points;
             int hands_played;
-            
+            bool shuffle;
             Card upCard;
             int previous_winner;
             Suit trump;
@@ -44,12 +44,13 @@ class Game {
   // ...
    
    //constructor, pass pack by reference to avoid making a copy
-    Game::Game(vector<Player*> players, Pack& Apack, int points_to_win) {
+    Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, bool Shouldshuffle) {
     //  this->players = players;
     //  pack = Apack;
     //  win_points = points_to_win;
         this->players = players;
         win_points = points_to_win;
+        shuffle = Shouldshuffle;
      
     }
     
@@ -94,7 +95,10 @@ class Game {
             //increment dealer
             dealer = (dealer + 1) % 4;
             pack.reset();
-            shuffle();
+            if(shuffle){
+                Doshuffle();
+            }
+            
             /*if(hands_played == 5){
                 game = false;
             }*/
@@ -111,7 +115,7 @@ class Game {
     }
     
     
-    void Game::shuffle() {
+    void Game::Doshuffle() {
      pack.shuffle();
     }
     void Game::print_hand(int dealer) {
@@ -339,6 +343,9 @@ class Game {
          
         
     }
+    
+        
+
 
 
 
@@ -346,8 +353,7 @@ class Game {
    
    int main(int argc, char **argv) {
      // Read command line args and check for errors
-     string error_string = "Usage: euchre.exe PACK_FILENAME [shuffle|noshuffle]";
-     error_string += "POINTS_TO_WIN NAME1 TYPE1 NAME2 TYPE2 NAME3 TYPE3 NAME4 TYPE4";
+     string error_string = "Usage: euchre.exe PACK_FILENAME [shuffle|noshuffle] POINTS_TO_WIN NAME1 TYPE1 NAME2 TYPE2 NAME3 TYPE3 NAME4 TYPE4";
      //cout << "Reading in" << endl;
      if(argc != 12){
         cout << error_string << endl;
@@ -355,16 +361,15 @@ class Game {
      //convert pointer to string
      }else if(string(argv[2]) != "shuffle" && string(argv[2]) != "noshuffle"){
         cout << error_string << endl;
-     return 1;}else if(stoi(argv[3]) < 1 || stoi(argv[3]) > 10){
+     return 1;
+     }else if(stoi(argv[3]) < 1 || stoi(argv[3]) > 10){
         cout << error_string << endl;
-     return 1;}else{
+     return 1;
+     }else{
         for(int i = 5;i<12;i+=2){
-            if(string(argv[i]) != "Human"){
-            if(string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
+            if(string(argv[i]) != "Human" && string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
                 cout << error_string << endl;
-                return 1;
-            }
-            }
+     return 1;
             }
         }
                 
@@ -374,17 +379,36 @@ class Game {
         cout << "Error opening file" << endl;
         return 1;
     }
+    //cout << "Pack filename: " << argv[1] << endl;
     string string_shuffle = argv[2];
     int points = stoi(argv[3]);
     vector<Player*> players;
     //add players
     for(int i = 4;i<12;i+=2){
-        players.push_back(Player_factory (string(argv[i]),(argv[i+1])));
+        if(string(argv[i+1]) == "Human"){
+
+            // Player * Player_factory (const std::string &name, const std::string &strategy)
+
+            
+            
+            players.push_back(Player_factory (string(argv[i]), "Human"));
+        }else if(string(argv[i+1]) == "Simple"){
+            players.push_back(Player_factory (string(argv[i]), "Simple"));
+        }
     }
     //make pack
     Pack pack(fin);
+    //cout <<"pack made" << endl;
+    bool shuffle;
+    if(string_shuffle == "shuffle"){
+        shuffle = true;
+    }else{
+        shuffle = false;
+    }
+    Game game(players, pack, points, shuffle);
     
-    Game game(players, pack, points, string_shuffle);
+    //cout << "printing args" << endl;
+    //print executable and all arguments
     for(int i = 0;i<argc;i++){
         cout << argv[i] << " ";
     }
