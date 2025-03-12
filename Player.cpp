@@ -12,6 +12,7 @@ using namespace std;
  * Implements all pure virtual functions from the Player base class.
  */
 
+
 class SimplePlayer : public Player {
 public:
     
@@ -398,3 +399,13 @@ private:
     string name;
     vector<Card> cards; 
 };
+Player * Player_factory(const std::string &name, const std::string &strategy) {
+    if (strategy == "Simple") {
+        return new SimplePlayer(name);
+    } else {
+        return new HumanPlayer(name);
+    }
+ };
+ std::ostream & operator<<(std::ostream &os, const Player &p) {
+    return os << p.get_name();
+ }

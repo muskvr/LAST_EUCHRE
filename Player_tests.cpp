@@ -69,6 +69,19 @@ Player * krith = Player_factory("Kylie", "Simple");
     ASSERT_EQUAL(DIAMONDS, trumpy);
     delete krith;
 
+
+
+Player * bruh = Player_factory("Kylie", "Simple");
+    bruh->add_card(Card(NINE, SPADES));
+    bruh->add_card(Card(FOUR, SPADES));
+    bruh->add_card(Card(THREE, CLUBS));
+    bruh->add_card(Card(NINE, CLUBS));
+    //bruh is dealer and is round 2
+    Suit trumpy5 = HEARTS;
+    ASSERT_EQUAL(true, bruh->make_trump(Card(KING, HEARTS), true, 2, trumpy5));
+    
+    ASSERT_TRUE(trumpy5 == HEARTS || trumpy5 == DIAMONDS); 
+    delete bruh;
 }
 
 TEST(test_player_add_and_discard) {
