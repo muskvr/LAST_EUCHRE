@@ -132,58 +132,28 @@ order up the suit with the same color as the upcard.*/
     //When a Simple Player leads a trick, they play the highest 
     //non-trump card in their hand. If they have only trump cards, they play the highest trump card in their hand.
     Card lead_card(Suit trump) override { 
-         
-
-        //cout << "LEAD CARD" << endl;
-        /*for(int i = 0; i < cards.size(); i++){
-            cout << cards[i] << endl;
-        }*/
-        
-        Card max = cards[0];
+        Card max;
         int index = -1;
         //int index = 0;
-        //check for left bower
-        for(int i = 0; i < cards.size(); i++){
-            if(cards[i].is_left_bower(trump)){
+        for (int i = 0; i < cards.size(); i++) {
+            if (cards[i].get_suit() != trump) {
                 max = cards[i];
                 index = i;
-              
-                cout << cards[i] << " is left bower" << endl;
+                //cout << "no trump " << endl;
             }
         }
         if(index != -1){
-            cards.erase(cards.begin() + index);
-            return max;
-        }
-        //then check diamonds
-        if(index == -1){
-            for (int i = 0; i < cards.size(); i++) {
-                //if cards[i] is not trump
-                if (cards[i].get_suit() != trump) {
+            for(int i = 0; i < cards.size(); i ++){
+                if(max < cards[i] && cards[i].get_suit() != trump){
                     max = cards[i];
                     index = i;
-                    //cout << "has none trump card" << endl;
-                    
-                }
-            }
-        }
-        
-        if(index != -1){
-            for(int i = 0; i < cards.size(); i++){
-                if(Card_less(max,cards[i], trump) && !(cards[i].is_trump(trump))){
-                    max = cards[i];
-                    index = i;
-                     
                 }
             }
             cards.erase(cards.begin() + index);
             return max;
         }
         //if only having trump cards
-        
-        index = 0;
         for(int i = 0; i < cards.size(); i++){
-            //cout << "has trump card" << endl;
             if (cards[i].get_suit() == trump && Card_less(max, cards[i], trump)) {
                 max = cards[i];
                 index = i;
@@ -191,6 +161,12 @@ order up the suit with the same color as the upcard.*/
         }
         cards.erase(cards.begin() + index);
         return max;
+         
+
+
+        
+       
+       
     }
 
     //REQUIRES Player has at least one card
