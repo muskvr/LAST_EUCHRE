@@ -358,7 +358,7 @@ private:
     string name;
     vector<Card> cards; 
 };
-Player * Player_factory(const std::string &name, const std::string &strategy) {
+Player * Player_factory (const std::string &name, const std::string &strategy) {
     if (strategy == "Simple") {
         return new SimplePlayer(name);
     } else {
