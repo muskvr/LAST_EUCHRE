@@ -149,16 +149,22 @@ bool Card_less(const Card &a, const Card &b, const Card &led_card, Suit trump){
   }
 
   //if not trumps then check following suit
-  if(a.get_suit(trump) == led_card.get_suit(trump) && b.get_suit(trump) != led_card.get_suit(trump)){
+  if(a.get_suit(trump) == led_card.get_suit(trump)){
+  if( b.get_suit(trump) != led_card.get_suit(trump)){
     return false;
   }
-
-  else if(a.get_suit(trump) != led_card.get_suit(trump) && b.get_suit(trump) == led_card.get_suit(trump)){
-    return true;
   }
 
-  else if(a.get_suit(trump) == led_card.get_suit(trump) && b.get_suit(trump) == led_card.get_suit(trump)){
+  else if(a.get_suit(trump) != led_card.get_suit(trump)){
+  if(b.get_suit(trump) == led_card.get_suit(trump)){
+    return true;
+  }
+}
+
+  else if(a.get_suit(trump) == led_card.get_suit(trump)){
+  if( b.get_suit(trump) == led_card.get_suit(trump)){
     return (a<b);
+  }
   }
 
   return (a<b);

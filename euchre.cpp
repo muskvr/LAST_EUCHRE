@@ -13,7 +13,7 @@ class Game {
 
 
     public:
-     Game(vector<Player*> players, Pack& pack, int points_to_win, bool Shouldshuffle);
+    Game(vector<Player*> players, Pack& pack, int points_to_win, string Shouldshuffle);
      void play();
      void Doshuffle();
      void print_hand(int dealer);
@@ -31,7 +31,7 @@ class Game {
             //int hands;
             int win_points;
             int hands_played;
-            bool shuffle;
+            string shuffle;
             Card upCard;
             int previous_winner;
             Suit trump;
@@ -44,7 +44,8 @@ class Game {
   // ...
    
    //constructor, pass pack by reference to avoid making a copy
-    Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, bool Shouldshuffle) {
+    Game::Game
+    (vector<Player*> players, Pack& Apack, int points_to_win, string Shouldshuffle) {
     //  this->players = players;
     //  pack = Apack;
     //  win_points = points_to_win;
@@ -92,10 +93,10 @@ class Game {
             
             
             find_scores();
-            //increment dealer
+            //increment dealer                                                      
             dealer = (dealer + 1) % 4;
             pack.reset();
-            if(shuffle){
+            if(shuffle == "shuffle"){
                 Doshuffle();
             }
             
@@ -197,7 +198,8 @@ class Game {
                 //if player did order up
                 if(players[turn]->make_trump(upCard, turn==dealer,j, trump_suit)){
                     //prints out name and orders up suit
-                    cout << players[turn]->get_name() << " orders up " << trump_suit << endl << endl;
+                    cout << players[turn]->get_name();
+                    cou << " orders up " << trump_suit << endl << endl;
                     if(j==1){
                         players[dealer] ->add_and_discard(upCard);
                     }
@@ -209,7 +211,8 @@ class Game {
                 }
                 else{
                     //if someone did not ordered up
-                    //cout << players[turn]->get_name() << " passing index: " << turn <<endl;
+                    //cout << players[turn]->get_name() << " passing index: " 
+                    //<< turn <<endl;
                     cout << players[turn]->get_name() << " passes" << endl;
                 }
                 
@@ -257,7 +260,8 @@ class Game {
             int turn = (lead_player+i)%4;
             //cout << "playing card" << endl;
             Card playerPutCard = players[turn]->play_card(leadcard, trump);
-            cout << playerPutCard << " played by " << players[turn]->get_name() << endl;
+            cout << playerPutCard << " played by " << players[turn]->get_name();
+            cout << endl;
             pile.push_back(playerPutCard);
             turns.push_back(turn);
         }
@@ -267,7 +271,8 @@ class Game {
         //do who wins the trick!!!!!
         //finding the highest played card
         for(int i = 0;i < 4; i++){
-            //bool Card_less(const Card &a, const Card &b, const Card &led_card, Suit trump);
+            //bool Card_less(const Card &a, const Card &b, 
+            //const Card &led_card, Suit trump);
 
             if(Card_less(max, pile[i],leadcard, trump)){
                 max = pile[i];
@@ -285,9 +290,11 @@ class Game {
         
     void Game::find_Gamewinner(){
         if(points[0] + points[2] > points[1] + points[3]){
-            cout << players[0]->get_name() << " and " << players[2]->get_name() << " win!" << endl;
+            cout << players[0]->get_name() << " and ";
+            cout << players[2]->get_name() << " win!" << endl;
         } else {
-            cout << players[1]->get_name() << " and " << players[3]->get_name() << " win!" << endl;
+            cout << players[1]->get_name() << " and ";
+            cout << players[3]->get_name() << " win!" << endl;
         }
         
     }
@@ -297,8 +304,10 @@ class Game {
         
        
     //If the team that ordered up the trump suit takes 3 or 4 tricks, they get 1 point.
-    //If the team that ordered up the trump suit takes all 5 tricks, they get 2 points. This is called a march.
-    //If the team that did not order up takes 3, 4, or 5 tricks, they receive 2 points. This is called euchred.
+    //If the team that ordered up the trump suit takes all 5 tricks, they get 
+    //2 points. This is called a march.
+    //If the team that did not order up takes 3, 4, or 5 
+    //tricks, they receive 2 points. This is called euchred.
 
     void Game::find_scores() {
        
@@ -316,8 +325,9 @@ class Game {
                 }
             }
             else{
+                int total = 0;
                 //getting euchred
-                if(scores[i] + scores[i+2] == 3 || scores[i]+ scores[i+2]== 4 || scores[i] + scores[i+2] == 5){
+                if(total == 3 || total== 4 || total == 5){
                     points[i] += 2;
                     thingy = "euchred!";
                 }
@@ -326,17 +336,21 @@ class Game {
 
         }
         if(scores[0] + scores[2] > scores[1] + scores[3]){
-            cout << players[0]->get_name() << " and " << players[2]->get_name() << " win the hand" << endl;
+            cout << players[0]->get_name() << " and ";
+            cout << players[2]->get_name() << " win the hand" << endl;
         } else {
-            cout << players[1]->get_name() << " and " << players[3]->get_name() << " win the hand" << endl;
+            cout << players[1]->get_name() << " and "; 
+            cout << players[3]->get_name() << " win the hand" << endl;
         }
         //Adi and Chi-Chih have 2 points
         if(thingy != ""){
             cout << thingy << endl;
         }
         
-        cout << players[0]->get_name() << " and " << players[2]->get_name() << " have " << points[0] + points [2] << " points" << endl;
-        cout << players[1]->get_name() << " and " << players[3]->get_name() << " have " << points[1] + points [3] << " points" << endl;
+        cout << players[0]->get_name() << " and " << players[2]->get_name();
+        cout << " have " << points[0] + points [2] << " points" << endl;
+        cout << players[1]->get_name() << " and " << players[3]->get_name();
+        cout << " have " << points[1] + points [3] << " points" << endl;
         cout << endl;
          //now reset scores for each hand
          scores = {0,0,0,0};
@@ -351,71 +365,55 @@ class Game {
 
     
    
-   int main(int argc, char **argv) {
-     // Read command line args and check for errors
-     string error_string = "Usage: euchre.exe PACK_FILENAME [shuffle|noshuffle] POINTS_TO_WIN NAME1 TYPE1 NAME2 TYPE2 NAME3 TYPE3 NAME4 TYPE4";
-     //cout << "Reading in" << endl;
-     if(argc != 12){
-        cout << error_string << endl;
-     return 1;
-     //convert pointer to string
-     }else if(string(argv[2]) != "shuffle" && string(argv[2]) != "noshuffle"){
-        cout << error_string << endl;
-     return 1;
-     }else if(stoi(argv[3]) < 1 || stoi(argv[3]) > 10){
-        cout << error_string << endl;
-     return 1;
-     }else{
-        for(int i = 5;i<12;i+=2){
-            if(string(argv[i]) != "Human" && string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
-                cout << error_string << endl;
-     return 1;
-            }
+    int main(int argc, char **argv) {
+        // Read command line args and check for errors
+        string error_string = "Usage: euchre.exe PACK_FILENAME [shuffle|noshuffle]"
+        error_string+="POINTS_TO_WIN NAME1 TYPE1 NAME2 TYPE2 NAME3 TYPE3 NAME4 TYPE4";
+        //cout << "Reading in" << endl;
+        if(argc != 12){
+           cout << error_string << endl;
+           return 1;
+        //convert pointer to string
+        }else if(string(argv[2]) != "shuffle" && string(argv[2]) != "noshuffle"){
+           cout << error_string << endl;
+           return 1;
+        }else if(stoi(argv[3]) < 1 || stoi(argv[3]) > 10){
+           cout << error_string << endl;
+           return 1;
+        }else{
+           for(int i = 5;i<12;i+=2){
+               if(string(argv[i]) != "Human"){
+               if(string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
+                   cout << error_string << endl;
+                   return 1;
+               }
+               }
+           }
         }
-                
-     }
-    ifstream fin(argv[1]);
-    if(!fin.is_open()){
-        cout << "Error opening file" << endl;
-        return 1;
-    }
-    //cout << "Pack filename: " << argv[1] << endl;
-    string string_shuffle = argv[2];
-    int points = stoi(argv[3]);
-    vector<Player*> players;
-    //add players
-    for(int i = 4;i<12;i+=2){
-        if(string(argv[i+1]) == "Human"){
-
-            // Player * Player_factory (const std::string &name, const std::string &strategy)
-
-            
-            
-            players.push_back(Player_factory (string(argv[i]), "Human"));
-        }else if(string(argv[i+1]) == "Simple"){
-            players.push_back(Player_factory (string(argv[i]), "Simple"));
-        }
-    }
-    //make pack
-    Pack pack(fin);
-    //cout <<"pack made" << endl;
-    bool shuffle;
-    if(string_shuffle == "shuffle"){
-        shuffle = true;
-    }else{
-        shuffle = false;
-    }
-    Game game(players, pack, points, shuffle);
-    
-    //cout << "printing args" << endl;
-    //print executable and all arguments
-    for(int i = 0;i<argc;i++){
-        cout << argv[i] << " ";
-    }
-    game.play();
-    
-    //delete at end
-    for (int i = 0; i < players.size(); ++i) {
-        delete players[i];
-    }
+       ifstream fin(argv[1]);
+       if(!fin.is_open()){
+           cout << "Error opening file" << endl;
+           return 1;
+       }
+       string string_shuffle = argv[2];
+       int points = stoi(argv[3]);
+       vector<Player*> players;
+       //add players
+       for(int i = 4;i<12;i+=2){
+           players.push_back(Player_factory (string(argv[i]),(argv[i+1])));
+       }
+       //make pack
+       Pack pack(fin);
+       
+       Game game(players, pack, points, string_shuffle);
+       for(int i = 0;i<argc;i++){
+           cout << argv[i] << " ";
+       }
+       game.play();
+       
+       //delete at end
+       for (int i = 0; i < players.size(); ++i) {
+           delete players[i];
+       }
    }
+   
