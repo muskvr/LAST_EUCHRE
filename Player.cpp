@@ -46,7 +46,8 @@ two or more cards that are either face or ace cards of the trump suit
 by the upcard). (A Simple Player does not consider whether they are the dealer and 
 could gain an additional trump by picking up the upcard.)*/
 
-    bool make_trump(const Card &upcard, bool is_dealer,int round, Suit &order_up_suit) const override {
+bool make_trump
+(const Card &upcard, bool is_dealer,int round, Suit &order_up_suit) const override {
         //cout << "MAKE" << endl;
         //cout <<  "cards in hand: " << endl;
         
@@ -99,9 +100,12 @@ could gain an additional trump by picking up the upcard.)*/
     //REQUIRES Player has at least one card
     //EFFECTS  Player adds one card to hand and removes one card from hand.
 
-    //If the trump suit is ordered up during round one, the dealer picks up the upcard. 
-    //The dealer then discards the lowest card in their hand, even if this is the upcard, 
-    //for a final total of five cards. (Note that at this point, the trump suit is the suit of the upcard.)
+    //If the trump suit is ordered up during round one, the dealer picks up the 
+    //upcard. 
+    //The dealer then discards the lowest card in their hand, even if this is the 
+    //upcard, 
+    //for a final total of five cards. (Note that at this point, the trump suit 
+    //is the suit of the upcard.)
     void add_and_discard(const Card &upcard) override {
        
        
@@ -124,7 +128,8 @@ could gain an additional trump by picking up the upcard.)*/
     //  "Lead" means to play the first Card in a trick.  The card
     //  is removed the player's hand.
     //When a Simple Player leads a trick, they play the highest 
-    //non-trump card in their hand. If they have only trump cards, they play the highest trump card in their hand.
+    //non-trump card in their hand. If they have only trump cards, they play 
+    //the highest trump card in their hand.
     Card lead_card(Suit trump) override { 
         Card max;
         int index = -1;
@@ -167,9 +172,11 @@ could gain an additional trump by picking up the upcard.)*/
     //EFFECTS  Plays one Card from Player's hand according to their strategy.
     //  The card is removed from the player's hand.
     //When playing a card, Simple Players use a simple strategy that considers only 
-    //the suit that was led. A more complex strategy would also consider the cards on the table.
+    //the suit that was led. A more complex strategy would also consider the cards
+    // on the table.
 
-//If a Simple Player can follow suit, they play the highest card that follows suit. Otherwise, they play the lowest card in their hand.
+//If a Simple Player can follow suit, they play the highest card that follows suit.
+// Otherwise, they play the lowest card in their hand.
     Card play_card(const Card &led_card, Suit trump) override {  
         //cout << "PLAY CARD" << endl;
         Card max = cards[0];
@@ -183,7 +190,8 @@ could gain an additional trump by picking up the upcard.)*/
         for (int i = 0; i < cards.size(); i++) {
             //if card is follows suit and is higher than max
             //card less returns true if max < cards[i]
-            //bool Card_less(const Card &a, const Card &b, const Card &led_card, Suit trump){
+            //bool Card_less(const Card &a, const Card &b, const Card &led_card, 
+            //Suit trump){
             
             if (cards[i].get_suit(trump) == led_card.get_suit(trump)) {
                 
@@ -197,9 +205,11 @@ could gain an additional trump by picking up the upcard.)*/
         //we were able to follow suit
         if(index!=-1){
             for(int i = 0; i < cards.size(); i++){
-                if(Card_less(max, cards[i],led_card, trump) && cards[i].get_suit() == led_card.get_suit()){
+                if(Card_less(max, cards[i],led_card, trump)){
+                if(cards[i].get_suit() == led_card.get_suit()){
                     max = cards[i]; 
                     index = i;
+                }
                 }
             }
             cards.erase(cards.begin() + index);
@@ -211,9 +221,11 @@ could gain an additional trump by picking up the upcard.)*/
         index = 0;
         //if we can not follow suit play the lowest card
         for(int i = 0; i < cards.size(); i++){
-            if (Card_less(cards[i],min,trump) && cards[i].get_suit(trump)!=led_card.get_suit()){
+            if (Card_less(cards[i],min,trump)){
+            if(cards[i].get_suit(trump)!=led_card.get_suit()){
                 min = cards[i];
                 index = i;
+            }
             }
         }
         //now erase that card
@@ -263,7 +275,8 @@ public:
     }
 
 
-    bool make_trump(const Card &upcard, bool is_dealer,int round, Suit &order_up_suit) const override {
+bool make_trump
+(const Card &upcard,bool is_dealer,int round,Suit &order_up_suit)const override{
         print_hand();
         cout << "Human player " << name << ", please enter a suit, or \"pass\":\n";
         string decision;
@@ -283,11 +296,13 @@ public:
     //REQUIRES Player has at least one card
     //EFFECTS  Player adds one card to hand and removes one card from hand.
 
-    //f a Human Player is the dealer and someone orders up during the first round of making, 
+    //f a Human Player is the dealer and someone orders up during the first round of 
+    //making, 
     //the Human Player will pick up the upcard and discard a card of their choice. 
     //Print the Player’s hand and an option to discard the upcard. 
     //Then, prompt the user to select a card to discard. 
-    //The user will then enter the number corresponding to the card they want to discard (or -1 if they want to discard the upcard).
+    //The user will then enter the number corresponding to the card they want to 
+    //discard (or -1 if they want to discard the upcard).
 
 
     void add_and_discard(const Card &upcard) override {

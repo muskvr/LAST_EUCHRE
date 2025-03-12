@@ -170,7 +170,8 @@ TEST(test_isTrumpTRUE){
     Card d(JACK, CLUBS);
     ASSERT_TRUE(d.is_trump(CLUBS));
 }
-//comparing low-rank trumps with high-rank non-trumps, or comparing bowers against other cards.
+//comparing low-rank trumps with high-rank non-trumps, 
+//or comparing bowers against other cards.
 TEST(test_cardLessTrue){
     Card a(TWO, HEARTS);
     Card b(FIVE, HEARTS);

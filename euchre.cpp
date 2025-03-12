@@ -44,7 +44,11 @@ class Game {
   // ...
    
    //constructor, pass pack by reference to avoid making a copy
+<<<<<<< Updated upstream
     Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, string Shouldshuffle) {
+=======
+Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, bool Shouldshuffle){
+>>>>>>> Stashed changes
     //  this->players = players;
     //  pack = Apack;
     //  win_points = points_to_win;
@@ -197,7 +201,8 @@ class Game {
                 //if player did order up
                 if(players[turn]->make_trump(upCard, turn==dealer,j, trump_suit)){
                     //prints out name and orders up suit
-                    cout << players[turn]->get_name() << " orders up " << trump_suit << endl << endl;
+                    cout << players[turn]->get_name() << " orders up ";
+                    cout << trump_suit << endl << endl;
                     if(j==1){
                         players[dealer] ->add_and_discard(upCard);
                     }
@@ -209,7 +214,8 @@ class Game {
                 }
                 else{
                     //if someone did not ordered up
-                    //cout << players[turn]->get_name() << " passing index: " << turn <<endl;
+                    //cout << players[turn]->get_name() << " passing index: " << 
+                    //turn <<endl;
                     cout << players[turn]->get_name() << " passes" << endl;
                 }
                 
@@ -257,7 +263,8 @@ class Game {
             int turn = (lead_player+i)%4;
             //cout << "playing card" << endl;
             Card playerPutCard = players[turn]->play_card(leadcard, trump);
-            cout << playerPutCard << " played by " << players[turn]->get_name() << endl;
+            cout << playerPutCard << " played by " << players[turn]->get_name();
+            cout << endl;
             pile.push_back(playerPutCard);
             turns.push_back(turn);
         }
@@ -267,7 +274,8 @@ class Game {
         //do who wins the trick!!!!!
         //finding the highest played card
         for(int i = 0;i < 4; i++){
-            //bool Card_less(const Card &a, const Card &b, const Card &led_card, Suit trump);
+            //bool Card_less(const Card &a, const Card &b, const Card &led_card,
+            // Suit trump);
 
             if(Card_less(max, pile[i],leadcard, trump)){
                 max = pile[i];
@@ -285,9 +293,11 @@ class Game {
         
     void Game::find_Gamewinner(){
         if(points[0] + points[2] > points[1] + points[3]){
-            cout << players[0]->get_name() << " and " << players[2]->get_name() << " win!" << endl;
+            cout << players[0]->get_name() << " and ";
+            cout << players[2]->get_name() << " win!" << endl;
         } else {
-            cout << players[1]->get_name() << " and " << players[3]->get_name() << " win!" << endl;
+            cout << players[1]->get_name() << " and ";
+            cout << players[3]->get_name() << " win!" << endl;
         }
         
     }
@@ -297,8 +307,10 @@ class Game {
         
        
     //If the team that ordered up the trump suit takes 3 or 4 tricks, they get 1 point.
-    //If the team that ordered up the trump suit takes all 5 tricks, they get 2 points. This is called a march.
-    //If the team that did not order up takes 3, 4, or 5 tricks, they receive 2 points. This is called euchred.
+    //If the team that ordered up the trump suit takes all 5 tricks, they get 2 points. 
+    //This is called a march.
+    //If the team that did not order up takes 3, 4, or 5 tricks, they receive 2 points.
+    // This is called euchred.
 
     void Game::find_scores() {
        
@@ -316,8 +328,9 @@ class Game {
                 }
             }
             else{
+                int total = scores[i] + scores[i+2];
                 //getting euchred
-                if(scores[i] + scores[i+2] == 3 || scores[i]+ scores[i+2]== 4 || scores[i] + scores[i+2] == 5){
+                if(total == 3 || total == 4 || total == 5){
                     points[i] += 2;
                     thingy = "euchred!";
                 }
@@ -326,17 +339,21 @@ class Game {
 
         }
         if(scores[0] + scores[2] > scores[1] + scores[3]){
-            cout << players[0]->get_name() << " and " << players[2]->get_name() << " win the hand" << endl;
+            cout << players[0]->get_name() << " and " << players[2]->get_name();
+            cout << " win the hand" << endl;
         } else {
-            cout << players[1]->get_name() << " and " << players[3]->get_name() << " win the hand" << endl;
+            cout << players[1]->get_name() << " and " << players[3]->get_name();
+            cout << " win the hand" << endl;
         }
         //Adi and Chi-Chih have 2 points
         if(thingy != ""){
             cout << thingy << endl;
         }
         
-        cout << players[0]->get_name() << " and " << players[2]->get_name() << " have " << points[0] + points [2] << " points" << endl;
-        cout << players[1]->get_name() << " and " << players[3]->get_name() << " have " << points[1] + points [3] << " points" << endl;
+        cout << players[0]->get_name() << " and " << players[2]->get_name();
+        cout << " have " << points[0] + points [2] << " points" << endl;
+        cout << players[1]->get_name() << " and " << players[3]->get_name();
+        cout << " have " << points[1] + points [3] << " points" << endl;
         cout << endl;
          //now reset scores for each hand
          scores = {0,0,0,0};
@@ -353,7 +370,8 @@ class Game {
    
    int main(int argc, char **argv) {
      // Read command line args and check for errors
-     string error_string = "Usage: euchre.exe PACK_FILENAME [shuffle|noshuffle] POINTS_TO_WIN NAME1 TYPE1 NAME2 TYPE2 NAME3 TYPE3 NAME4 TYPE4";
+     string error_string = "Usage: euchre.exe PACK_FILENAME [shuffle|noshuffle]";
+     error_string += "POINTS_TO_WIN NAME1 TYPE1 NAME2 TYPE2 NAME3 TYPE3 NAME4 TYPE4";
      //cout << "Reading in" << endl;
      if(argc != 12){
         cout << error_string << endl;
@@ -365,9 +383,11 @@ class Game {
         cout << error_string << endl;
      return 1;}else{
         for(int i = 5;i<12;i+=2){
-            if(string(argv[i]) != "Human" && string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
+            if(string(argv[i]) != "Human"){
+            if(string(argv[i]) != "Simple" && string(argv[i]) != "Random"){
                 cout << error_string << endl;
                 return 1;
+            }
             }
         }
                 
