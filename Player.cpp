@@ -253,6 +253,7 @@ public:
   //EFFECTS  adds Card c to Player's hand
     void add_card(const Card &upcard) override {
        cards.push_back(upcard);
+       sort(cards.begin(), cards.end());
     }
 
     //REQUIRES round is 1 or 2
@@ -261,24 +262,6 @@ public:
     //  change order_up_suit to desired suit.  If Player wishes to pass, then do
     //  not modify order_up_suit and return false.
 
-/*In making trump, a Simple Player considers the upcard, which player dealt,
- and whether it is the first or second round of making trump. A more comprehensive
-strategy would consider the other players’ responses, but we will keep it simple.
-
-During round one, a Simple Player considers ordering up the suit of the upcard, 
-which would make that suit trump. They will order up if that would mean they have 
-two or more cards that are either face or ace cards of the trump suit 
-(the right and left bowers, and Q, K, A of the trump suit, which is the suit proposed
-by the upcard). (A Simple Player does not consider whether they are the dealer and 
-could gain an additional trump by picking up the upcard.)
-
-During round two, a Simple Player considers ordering up the suit with the same color as the upcard, 
-which would make that suit trump. They will order up if that would mean they have one or more cards that 
-are either face or ace cards of the trump suit in their hand (the right and left bowers, and Q, K, A of the 
-order-up suit). For example, if the upcard is a Heart and the player has the King of Diamonds in their hand, 
-they will order up Diamonds. The Simple Player will not order up any other suit. 
-If making reaches the dealer during the second round, we invoke screw the dealer, where the dealer is forced to order up. 
-In the case of screw the dealer, the dealer will always order up the suit with the same color as the upcard.*/
 
     void print_hand() const {
         for (size_t i=0; i < cards.size(); ++i)
@@ -315,12 +298,25 @@ In the case of screw the dealer, the dealer will always order up the suit with t
 
 
     void add_and_discard(const Card &upcard) override {
-        cards.push_back(upcard);
+        
         std::sort(cards.begin(), cards.end());
         print_hand();
-        cout << "Human player " << name << ", please enter a card to discard, or \"-1\" to discard the upcard: "<<endl;
+        cards.push_back(upcard);
+        
+        cout << "Discard upcard: [-1]\n";
+        cout << "Human player " << name << ", please select a card to discard:\n";
+        
         int discard;
         cin >> discard;
+        //discard upcard
+        if(discard == -1){
+            for(int i = 0;i < cards.size(); i++){
+                if(cards[i] == upcard){
+                    cards.erase(cards.begin() + i);
+                    return;
+                }
+            }
+        }
         
         cards.erase(cards.begin() + discard);
         
@@ -332,8 +328,9 @@ In the case of screw the dealer, the dealer will always order up the suit with t
    //first print the Player’s hand. Then, prompt the user to select a card. 
    //The user will then enter the number corresponding to the card they want to play.
     Card lead_card(Suit trump) override {  
+        std::sort(cards.begin(), cards.end());
         print_hand();
-        cout << "Human player " << name << ", please enter a card to lead: "<<endl;
+        cout << "Human player " << name << ", please select a card:"<<endl;
         int lead;
         cin >> lead;
         Card card = cards[lead];
@@ -341,57 +338,19 @@ In the case of screw the dealer, the dealer will always order up the suit with t
         return card;
     }
 
-    //REQUIRES Player has at least one card
-    //EFFECTS  Plays one Card from Player's hand according to their strategy.
-    //  The card is removed from the player's hand.
-    //When playing a card, Simple Players use a simple strategy that considers only 
-    //the suit that was led. A more complex strategy would also consider the cards on the table.
-
-//If a Simple Player can follow suit, they play the highest card that follows suit. Otherwise, they play the lowest card in their hand.
+    //
     Card play_card(const Card &led_card, Suit trump) override {  
-        cout << "PLAY CARD" << endl;
-        Card card = cards[0];
-        int highrank = 0;
-        int index = -1;
-        if (cards.empty()) {
-            cout<<"EMPTY"<<endl;
-            return card;
-        }
-        for(int i = 0; i < cards.size(); i++){
-            if(cards[i].get_suit() == led_card.get_suit() && cards[i].get_rank() > highrank){
-                card = cards[i];
-                index = i;
-            }
-            
-            
-        }
-        //if the player can follow suit
-        if(index != -1){
-            cout << "removing card" << card.get_rank() << endl;
-            cards.erase(cards.begin() + index);
-            return card;
-        }
-        
-        card = cards[0];
-        
-        for(int i = 0; i < cards.size(); i++){
-            cout << cards.size() << endl;
-            if(cards[i] < card){
-                card = cards[i];
-                index = i;
-            }
-        }
-        if(index == -1){
-            return card;
-        }
-        cout << "INDEX: " << index << endl;
-        cout << cards.size() << endl;
-        cards.erase(cards.begin() + index);
+        std::sort(cards.begin(), cards.end());
+        print_hand();
+        cout << "Human player " << name << ", please select a card:\n";
+        int play;
+        cin >> play;
+        Card card = cards[play];
+        cards.erase(cards.begin() + play);
         return card;
 
         
-        
-        
+
     }
 
 
