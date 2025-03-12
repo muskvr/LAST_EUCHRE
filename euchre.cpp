@@ -7,14 +7,15 @@
 #include "Player.cpp"
 #include <string>
 #include <fstream>
+
 using namespace std;
 class Game {
 
 
     public:
-     Game(vector<Player*> players, Pack& pack, int points_to_win);
+     Game(vector<Player*> players, Pack& pack, int points_to_win, bool Shouldshuffle);
      void play();
-     void shuffle();
+     void Doshuffle();
      void print_hand(int dealer);
      void deal(int dealer);
      bool game_isover(/* ... */);
@@ -30,7 +31,7 @@ class Game {
             //int hands;
             int win_points;
             int hands_played;
-            
+            bool shuffle;
             Card upCard;
             int previous_winner;
             Suit trump;
@@ -43,12 +44,13 @@ class Game {
   // ...
    
    //constructor, pass pack by reference to avoid making a copy
-    Game::Game(vector<Player*> players, Pack& Apack, int points_to_win) {
+    Game::Game(vector<Player*> players, Pack& Apack, int points_to_win, bool Shouldshuffle) {
     //  this->players = players;
     //  pack = Apack;
     //  win_points = points_to_win;
         this->players = players;
         win_points = points_to_win;
+        shuffle = Shouldshuffle;
      
     }
     
@@ -93,7 +95,10 @@ class Game {
             //increment dealer
             dealer = (dealer + 1) % 4;
             pack.reset();
-            shuffle();
+            if(shuffle){
+                Doshuffle();
+            }
+            
             /*if(hands_played == 5){
                 game = false;
             }*/
@@ -110,7 +115,7 @@ class Game {
     }
     
     
-    void Game::shuffle() {
+    void Game::Doshuffle() {
      pack.shuffle();
     }
     void Game::print_hand(int dealer) {
@@ -375,7 +380,7 @@ class Game {
         return 1;
     }
     //cout << "Pack filename: " << argv[1] << endl;
-    string shuffle = argv[2];
+    string string_shuffle = argv[2];
     int points = stoi(argv[3]);
     vector<Player*> players;
     //add players
@@ -389,10 +394,14 @@ class Game {
     //make pack
     Pack pack(fin);
     //cout <<"pack made" << endl;
-    Game game(players, pack, points);
-    if(shuffle == "shuffle"){
-        game.shuffle();
+    bool shuffle;
+    if(string_shuffle == "shuffle"){
+        shuffle = true;
+    }else{
+        shuffle = false;
     }
+    Game game(players, pack, points, shuffle);
+    
     //cout << "printing args" << endl;
     //print executable and all arguments
     for(int i = 0;i<argc;i++){
