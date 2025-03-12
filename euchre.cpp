@@ -4,7 +4,7 @@
 #include "Player.hpp"
 #include "Pack.hpp"
 #include "Card.hpp"
-#include "Player.cpp"
+//#include "Player.cpp"
 #include <string>
 #include <fstream>
 
@@ -386,9 +386,14 @@ class Game {
     //add players
     for(int i = 4;i<12;i+=2){
         if(string(argv[i+1]) == "Human"){
-            players.push_back(new HumanPlayer(string(argv[i])));
+
+            // Player * Player_factory (const std::string &name, const std::string &strategy)
+
+            
+            
+            players.push_back(Player_factory (string(argv[i]), "Human"));
         }else if(string(argv[i+1]) == "Simple"){
-            players.push_back(new SimplePlayer(string(argv[i])));
+            players.push_back(Player_factory (string(argv[i]), "Simple"));
         }
     }
     //make pack
