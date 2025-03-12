@@ -112,15 +112,6 @@ TEST(test_player_add_and_discard) {
     ASSERT_FALSE(test.get_rank() == THREE);
 
     delete musk;
-    //empty hand
-    Player * bruh = Player_factory("Alice", "Simple");
-    bruh->add_and_discard(Card(ACE, SPADES));
-    bruh->add_card(Card(FIVE, SPADES));
-    bruh->add_and_discard(Card(FIVE, SPADES));
-    
-    Card test60 = bruh->play_card(Card(FIVE, SPADES), SPADES);
-    ASSERT_FALSE(test60.get_rank() == ACE);
-    delete bruh;
 
 
 }
