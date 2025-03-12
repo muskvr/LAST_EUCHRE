@@ -68,38 +68,31 @@ could gain an additional trump by picking up the upcard.)*/
                 return false;
             }
        }
-/*During round two, a Simple Player considers ordering up the suit with the same 
-color as the upcard, which would make that suit trump. They will order up if that 
-would mean they have one or more cards that are either face or ace cards of the trump 
-suit in their hand (the right and left bowers, and Q, K, A of the order-up suit). 
-For example, if the upcard is a Heart and the player has the King of Diamonds in their hand, 
-they will order up Diamonds. The Simple Player will not order up any other suit. 
-If making reaches the dealer during the second round, we invoke screw the dealer, where 
-the dealer is forced to order up. In the case of screw the dealer, the dealer will always 
-order up the suit with the same color as the upcard.*/
-       if(round == 2){
-            count = 0;
-            //screw dealer
-            if(is_dealer){
-                order_up_suit = Suit_next(upcard.get_suit());
-                return true;
-            }
-
-            for(int i = 0; i<cards.size();i++){
-                if(Suit_next(upcard.get_suit()) == cards[i].get_suit()){
-                    if(cards[i].is_face_or_ace()){
-                    count++;
-                    }
-                }
-            }
-            if(count>=1){
+       if(round != 2){
+            return false;
+       }
+       
+        count = 0;
+        //screw dealer
+        if(is_dealer){
             order_up_suit = Suit_next(upcard.get_suit());
             return true;
+        }
+
+        for(int i = 0; i<cards.size();i++){
+            if(Suit_next(upcard.get_suit()) == cards[i].get_suit()){
+                if(cards[i].is_face_or_ace()){
+                count++;
+                }
             }
-       }
+        }
+        if(count>=1){
+        order_up_suit = Suit_next(upcard.get_suit());
+        return true;
+        }
+       
        return false;
     }
-    
     
     
 

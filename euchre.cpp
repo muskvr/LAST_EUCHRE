@@ -392,7 +392,6 @@ class Game {
     }
     //make pack
     Pack pack(fin);
-    //cout <<"pack made" << endl;
     bool shuffle;
     if(string_shuffle == "shuffle"){
         shuffle = true;
